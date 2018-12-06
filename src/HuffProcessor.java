@@ -62,7 +62,6 @@ public class HuffProcessor {
 		
 		int bits = in.readBits(BITS_PER_INT);
 		if (bits != HUFF_TREE) throw new HuffException("illegal header starts with " +bits);
-		if (bits == -1) throw new HuffException("reading bit failed");
 		HuffNode root = readTreeHeader(in);
 		readCompressedBits(root, in, out);
 		out.close();
@@ -84,7 +83,7 @@ public class HuffProcessor {
 					if (current.myValue == PSEUDO_EOF) 
 						break;   
 					else {
-						out.write(current.myValue);
+						out.writeBits(BITS_PER_WORD, current.myValue);
 						current = root; 
 					}
 				}
