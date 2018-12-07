@@ -67,13 +67,13 @@ public class HuffProcessor {
 
 		if (root.myLeft != null && root.myRight != null) {
 			//node
-			out.write(0);
+			out.writeBits(1, 0);
 			writeHeader(root.myLeft, out);
 			writeHeader(root.myRight, out);
 		}
 		else {
 			//leaf
-			out.write(1);
+			out.writeBits(1,1);
 			out.writeBits(BITS_PER_WORD +1, root.myValue);
 			
 		}
@@ -121,10 +121,11 @@ public class HuffProcessor {
 		freq[PSEUDO_EOF] = 1;
 		while(true) {
 			int bits = in.readBits(BITS_PER_WORD);
-			if (bits == PSEUDO_EOF) break;
-			freq[bits]+=1;
+			if (bits == PSEUDO_EOF||bits == -1) {
+				break;
+			}
+			freq[bits] += 1;
 		}
-		
 			
 		return freq;
 	}
