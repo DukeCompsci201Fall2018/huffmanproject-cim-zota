@@ -110,7 +110,7 @@ public class HuffProcessor {
 		PriorityQueue<HuffNode> pq = new PriorityQueue<>();
 		
 		for (int i = 0; i < counts.length; i++) {
-			if (counts[i] >0) pq.add(new HuffNode(i, counts[i], null, null));
+			if (counts[i] >0) pq.add(new HuffNode(i, counts[i]));
 		}
 		
 		while (pq.size() > 1) {
@@ -122,6 +122,7 @@ public class HuffProcessor {
 		HuffNode root = pq.remove();
 		return root;
 	}
+	
 	private int[] readForCounts(BitInputStream in) {
 		int[] freq = new int[ALPH_SIZE +1];
 	
