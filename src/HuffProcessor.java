@@ -67,8 +67,9 @@ public class HuffProcessor {
 		if (root.myLeft != null && root.myRight != null) {
 			//node
 			out.writeBits(1,0);
-			writeHeader(root.myLeft, out);
 			writeHeader(root.myRight, out);
+			writeHeader(root.myLeft, out);
+
 		}
 		else {
 			//leaf
@@ -92,8 +93,8 @@ public class HuffProcessor {
 		}
 		
 		else {
-			codingHelper(root.myLeft, string + "1",  encodings);
-			codingHelper(root.myRight, string + "0", encodings);
+			codingHelper(root.myLeft, string + "0",  encodings);
+			codingHelper(root.myRight, string + "1", encodings);
 		}
 		
 	}
