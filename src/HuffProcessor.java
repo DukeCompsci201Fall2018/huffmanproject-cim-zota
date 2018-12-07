@@ -47,7 +47,7 @@ public class HuffProcessor {
 		HuffNode root = makeTreeFromCounts(counts);
 		String[] codings = makeCodingsFromTree(root);
 		
-		out.writeBits(BITS_PER_INT, HUFF_TREE);
+//		out.writeBits(BITS_PER_INT, HUFF_TREE);
 		writeHeader(root,out);
 		
 		in.reset();
@@ -68,6 +68,8 @@ public class HuffProcessor {
 
 	private void writeHeader(HuffNode root, BitOutputStream out) {
 		out.writeBits(BITS_PER_INT, HUFF_TREE);
+		
+		if (root == null) return;
 		
 		if (root.myLeft != null && root.myRight != null) {
 			//node
@@ -110,13 +112,13 @@ public class HuffProcessor {
 		PriorityQueue<HuffNode> pq = new PriorityQueue<>();
 		
 		for (int i = 0; i < counts.length; i++) {
-			if (counts[i] >0) pq.add(new HuffNode(i, counts[i]));
+			if (counts[i] >0) pq.add(new HuffNode(i, counts[i], null, null));
 		}
 		
 		while (pq.size() > 1) {
 			HuffNode left = pq.remove();
 			HuffNode right = pq.remove();
-			HuffNode t = new HuffNode(0,left.myWeight + right.myWeight, left,right);
+			HuffNode t = new HuffNode(-1,left.myWeight + right.myWeight, left,right);
 			pq.add(t);
 		}
 		HuffNode root = pq.remove();
